@@ -1,0 +1,150 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+   
+    height: 100vh;
+    background-color: #f4f4f4;
+}
+
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+}
+
+/* Logo/Title */
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Logout button */
+.logout {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.logout-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.logout-btn:hover {
+    background-color: #e53935;
+}
+
+.menu-icon {
+    font-size: 24px;
+    cursor: pointer;
+    display: block;
+}
+
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    left: -250px;  /* Initially hidden */
+    top: 0;
+    background-color: #222;
+    padding-top: 20px;
+    transition: left 0.3s ease-in-out; /* Smooth animation */
+}
+
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 12px 20px;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.sidebar ul li a:hover {
+    background-color: #444;
+    border-radius: 4px;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    display: none;
+    padding-left: 20px;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+
+.dashboard-container {
+    margin: 10% auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: 1000px;  /* Adjust based on screen */
+}
+
+.dashboard-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;  /* Wrap cards in small screens */
+}
+
+.dashboard-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    text-align: center;
+    width: 200px;
+}
+
+.dashboard-card:hover {
+    transform: scale(1.05);
+}
+
+.dashboard-card img {
+    width: 80px;
+    height: 80px;
+}
+
+.dashboard-card p {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #555;
+}
+
+.count {
+    display: block;
+    margin-top: 5px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #007bff;
+}

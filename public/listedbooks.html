@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book List</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h2>Book List</h2>
+    <div id="book-list"></div>
+
+    <script>
+        async function fetchBooks() {
+            let response = await fetch("/api/books");
+            let books = await response.json();
+
+            let bookList = document.getElementById("book-list");
+            bookList.innerHTML = "";
+
+            books.forEach(book => {
+                let card = document.createElement("div");
+                card.className = "book-card";
+                card.innerHTML = `
+                    <img src="${book.image}" alt="${book.title}" width="100">
+                    <h3>${book.title}</h3>
+                    <p>Author: ${book.author}</p>
+                    <p>Quantity: ${book.quantity}</p>
+                    <p>Price: $${book.price}</p>
+                    <p>Rating: ${book.rating}</p>
+                    <p>Description: ${book.description}</p>
+                `;
+                bookList.appendChild(card);
+            });
+        }
+
+        fetchBooks();
+    </script>
+</body>
+</html>

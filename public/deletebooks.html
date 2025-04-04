@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>delete books</title>
+    <link rel="stylesheet" href="delete.css" />
+    <!-- Your CSS file -->
+  </head>
+  <body>
+    <!-- Form to delete a book -->
+    <div id="deleteBookForm">
+      <h2>Delete Book</h2>
+      <form id="deleteBookFormSubmit">
+        <label for="title">Book Title:</label>
+        <input type="text" id="title" name="title" required />
+        <button type="submit">Delete</button>
+      </form>
+      <p id="errorMessage" style="color: red"></p>
+      <p id="successMessage" style="color: green"></p>
+    </div>
+
+    <script>
+      // Handle delete book form submission
+      document
+        .getElementById("deleteBookFormSubmit")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const title = document.getElementById("title").value;
+
+          try {
+            const response = await fetch("/api/books/deletebook", {
+              method: "DELETE",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ title }),
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+              // Show success message
+              document.getElementById("successMessage").textContent =
+                result.message;
+
+              setTimeout(() => {
+                window.location.href = "/admindashboard.html"; // Make sure this is the correct path
+              }, 1500);
+              // Update the listed books by removing the deleted one
+              removeBookFromList(title);
+            } else {
+              document.getElementById("errorMessage").textContent =
+                result.message;
+            }
+          } catch (err) {
+            document.getElementById("errorMessage").textContent =
+              "Error deleting the book";
+          }
+        });
+
+      // Remove the book from the listed books section dynamically
+      function removeBookFromList(title) {
+        const bookItems = document.querySelectorAll(".book-card");
+        bookItems.forEach((item) => {
+          const bookTitle = item.querySelector(".book-title").textContent; // Get the title from the h3 tag
+
+          if (bookTitle === title) {
+            item.remove(); // Remove the book item from the list
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Library Management</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">📖 Digital Library</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#signInModal">User SignIn</a></li>
+            <li><a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#signUpModal">User SignUp</a></li>
+            <li><a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#LogInModal">Admin Login</a></li>
+        </ul>
+    </nav>
+
+<!-- Sign Up Modal -->
+<div class="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="signUpModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="signUpModalLabel">User SignUp</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Enter your name">
+            </div>
+            <div class="mb-3">
+                <label for="user-id" class="form-label">User ID</label>
+                <input type="text" class="form-control" id="user-id" placeholder="Enter your ID">
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" placeholder="Enter your email">
+            </div>
+            <div class="mb-3">
+              <label for="phone" class="form-label">Phone Number</label>
+              <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number">
+            </div>
+            <div class="mb-3">
+                <label for="create-password" class="form-label">Create Password</label>
+                <input type="password" class="form-control" id="create-password" placeholder="Enter your password">
+            </div>
+            <div class="mb-3">
+                <label for="confirm-password" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" id="confirm-password" placeholder="Enter your password again">
+            </div>
+            <button type="submit" class="btn btn-primary w-10">Sign Up</button>
+          </form>
+        </div>
+        <div class="modal-footer justify-content-start">
+            <p class="m-0">If you already have an account, 
+                <a href="#" class="link-primary" data-bs-toggle="modal" data-bs-target="#signInModal">Click here</a>
+            </p>
+        </div>        
+      </div>
+    </div>
+  </div>
+
+    <!-- Sign In Modal -->
+<div class="modal fade" id="signInModal" tabindex="-1" aria-labelledby="signInModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="signInModalLabel">User Sign In</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+                <label for="user-id" class="form-label">User ID</label>
+                <input type="text" class="form-control" id="user-id" placeholder="Enter your ID">
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" placeholder="Enter your email">
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" placeholder="Enter your password">
+            </div>
+            <button type="submit" class="btn btn-primary w-10">Sign In</button>
+          </form>
+        </div>
+        <div class="modal-footer justify-content-start">
+            <p class="m-0">Don't you have an account, 
+                <a href="#" class="link-primary" data-bs-toggle="modal" data-bs-target="#signUpModal">Click here</a>
+            </p>
+        </div>  
+      </div>
+    </div>
+  </div>
+   
+  <!-- Login In Modal -->
+  <div class="modal fade" id="LogInModal" tabindex="-1" aria-labelledby="LogInModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="LogInModalLabel">Admin Login</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="adminLoginForm">
+                    <div class="mb-3">
+                        <label for="admin-username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="admin-username" name="username" placeholder="Enter your username">
+                    </div>
+                    <div class="mb-3">
+                        <label for="admin-password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="admin-password" name="password" placeholder="Enter your password">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">LOGIN</button>
+                </form>
+            </div> 
+        </div>
+    </div>
+</div>
+
+    <div class="carousel">
+        <div>
+            <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794" alt="Library Image 1">
+        </div>
+        <div>
+            <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765" alt="Library Image 2">
+        </div>
+        <div>
+            <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f" alt="Library Image 3">
+        </div>
+        <div>
+            <img src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d" alt="Library Image 4">
+        </div>
+    </div>
+
+    
+    
+    <section class="user-reviews">
+        <h2>User Reviews</h2>
+        <div class="review-card">
+            <h3>John Doe</h3>
+            <p>"An incredible platform to explore and learn. Highly recommend!"</p>
+            <div class="rating">⭐⭐⭐⭐⭐</div>
+        </div>
+        <div class="review-card">
+            <h3>Jane Smith</h3>
+            <p>"A perfect place for book lovers. Easy to navigate and access."</p>
+            <div class="rating">⭐⭐⭐⭐⭐</div>
+        </div>
+        <div class="review-card">
+            <h3>Alex Johnson</h3>
+            <p>"Fantastic collection and user-friendly interface. Loved it!"</p>
+            <div class="rating">⭐⭐⭐⭐⭐</div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Contact Us: support@digitallibrary.com | Terms & Conditions</p>
+        <p>&copy; 2024 Digital Library. All Rights Reserved.</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.carousel').slick({
+                dots: true,
+                infinite: true,
+                speed: 500,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000
+            });
+        });
+    </script>
+</body>
+</html>

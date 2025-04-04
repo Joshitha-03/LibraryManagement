@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Update Book</title>
+  <link rel="stylesheet" href="updatebook.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>Update Book Details</h2>
+    <form id="updateBookForm" enctype="multipart/form-data">
+      <input type="text" name="bookId" placeholder="Book ID (required)" required />
+      
+      <input type="text" name="title" placeholder="New Title" />
+      <input type="text" name="author" placeholder="New Author" />
+      <input type="number" name="quantity" placeholder="Quantity" />
+      <input type="number" name="price" placeholder="Price" />
+      <textarea name="description" placeholder="Description"></textarea>
+      <input type="number" step="0.1" name="rating" placeholder="Rating" />
+      <input type="file" name="image" />
+      <button type="submit">Update Book</button>
+    </form>
+    <p id="successMessage" class="success"></p>
+    <p id="errorMessage" class="error"></p>
+  </div>
+
+  <script>
+    document.getElementById('updateBookForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const form = e.target;
+      const formData = new FormData(form);
+      const bookId = formData.get('bookId');
+
+      try {
+        const response = await fetch(`/api/books/update/${bookId}`, {
+          method: 'PUT',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          document.getElementById('successMessage').textContent = result.message;
+          document.getElementById('errorMessage').textContent = '';
+        } else {
+          document.getElementById('errorMessage').textContent = result.message;
+          document.getElementById('successMessage').textContent = '';
+        }
+      } catch (error) {
+        document.getElementById('errorMessage').textContent = 'Error updating book';
+        document.getElementById('successMessage').textContent = '';
+      }
+    });
+  </script>
+</body>
+</html>
