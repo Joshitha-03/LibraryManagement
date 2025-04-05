@@ -23,7 +23,7 @@
     </nav>
 
 <!-- Sign Up Modal -->
-<div class="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="signUpModalLabel" aria-hidden="true">
+<div class="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="signUpModalLabel" aria-hidden="true" >
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -31,26 +31,26 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form>
+          <form action="/api/user/userSignIn" method="post">
             <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" placeholder="Enter your name">
+                <label for="name" class="form-label" >Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Enter your name" name="name">
             </div>
             <div class="mb-3">
-                <label for="user-id" class="form-label">User ID</label>
-                <input type="text" class="form-control" id="user-id" placeholder="Enter your ID">
+                <label for="user-id" class="form-label" >User ID</label>
+                <input type="text" class="form-control" id="user-id" placeholder="Enter your ID" name="userId">
             </div>
             <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email" placeholder="Enter your email">
+              <label for="email" class="form-label" >Email</label>
+              <input type="email" class="form-control" id="email" placeholder="Enter your email" name="email">
             </div>
             <div class="mb-3">
-              <label for="phone" class="form-label">Phone Number</label>
-              <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number">
+              <label for="phone" class="form-label" >Phone Number</label>
+              <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number" name="phone">
             </div>
             <div class="mb-3">
-                <label for="create-password" class="form-label">Create Password</label>
-                <input type="password" class="form-control" id="create-password" placeholder="Enter your password">
+                <label for="create-password" class="form-label" >Create Password</label>
+                <input type="password" class="form-control" id="create-password" placeholder="Enter your password" name="password">
             </div>
             <div class="mb-3">
                 <label for="confirm-password" class="form-label">Confirm Password</label>

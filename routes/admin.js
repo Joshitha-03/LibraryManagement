@@ -4,9 +4,12 @@ const jwt = require("jsonwebtoken");
 const Admin = require("../models/Admin");
 const auth = require("../middleware/auth");
 
+const {setUser} =require("../service/auth");
+
 const router = express.Router();
 
 // Admin Login
+
 router.post("/login", async (req, res) => {
     const { username, password } = req.body;
 
@@ -24,6 +27,7 @@ router.post("/login", async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 });
+
 
 // Admin Dashboard (Protected Route)
 router.get("/dashboard", auth, (req, res) => {
