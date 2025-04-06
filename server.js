@@ -14,12 +14,14 @@ const connectDb=require("./connect");
 
 const app = express();
 app.use(express.json());
+// If you're also sending URL-encoded form data, add this too
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(cookieParser());
 app.use(express.static("public")); // Serve index.html
 
 // Connect to MongoDB
-connectDb("mongodb://localhost:27017/library").then(()=>console.log("connectd to database!"));
+connectDb("mongodb://localhost:27017/LibraryDB").then(()=>console.log("connectd to database!"));
 
 // app.get('/', (req, res) => {
 //     res.sendFile(path.join(__dirname, "./public/uploads/index.html"));
