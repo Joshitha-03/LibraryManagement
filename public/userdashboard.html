@@ -4,9 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link rel="stylesheet" href="userdashboard.css">
 </head>
 <body>
-    <h2 id="welcomeUser">Welcome!</h2>
+    <!-- <h2 id="welcomeUser">Welcome!</h2> -->
+    <nav class="navbar">
+        <div class="logo">
+            <h2 id="welcomeUser">Welcome!</h2>
+        </div>
+        <ul>
+          <li><a href="#profile">Profile</a></li>
+          <li><a href="#listedbooks">Listed Books</a></li>
+          <li><a href="#issuebook">Issue Book</a></li>
+          <li><a href="#returnbook">Return Book</a></li>
+          <li><a href="#transactions">Transactions</a></li>
+        </ul>
+    </nav>
+
+    <div class="Profile">
+         <div class="pro">
+            <h1>User Details:</h1>
+         </div>
+         <div class="details">
+            <h3 id="UserName"></h3>
+            <h3 id="UserId"></h3>
+            <h3 id="UserEmail"></h3>
+            <h3 id="UserPhone"></h3>
+         </div>
+    </div>
+
+    <div class="books">
+        <div class="boo">
+            <h1>All Books</h1>
+        </div>
+        <div class="cont-books">
+            <div id="booksList" class="contains"></div>
+        </div>
+    
+        <script>
+            async function fetchBooks() {
+                let response = await fetch("/api/books");
+                let books = await response.json();
+    
+                let bookList = document.getElementById("booksList");
+                bookList.innerHTML = "";
+    
+                books.forEach(book => {
+                    let card = document.createElement("div");
+                    card.className = "book-card";
+                    card.innerHTML = `
+                        <img src="${book.image}" alt="${book.title}" width="100">
+                        <h3>${book.title}</h3>
+                        <p>Author: ${book.author}</p>
+                        <p>Quantity: ${book.quantity}</p>
+                        <p>Price: $${book.price}</p>
+                        <p>Rating: ${book.rating}</p>
+                        <p>Description: ${book.description}</p>
+                    `;
+                    bookList.appendChild(card);
+                });
+            }
+    
+            fetchBooks();
+        </script>
+    </div>
+
+    
+
     <script src="userdash.js"></script>
+    <script src="userDetails.js"></script>
 </body>
 </html>
