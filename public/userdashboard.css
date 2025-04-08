@@ -60,11 +60,11 @@ body {
     }
 }
 
-.Profile ,.books{
+.Profile ,.books, .Transcations{
     margin-left: 60px; 
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
-.pro h1, .boo h1{
+.pro h1, .boo h1, .Transcations h1{
     border-bottom: 2px solid #4A90E2;
     width: 13rem;
 }
@@ -79,14 +79,24 @@ body {
     margin-left: 70px;
     margin-right: 130px;
 }
-.contains{
+.contains, #transcation, .Search_Books{
     text-align: center;
     margin: 10px 0;
     padding: 15px 20px;
     border-radius: 8px;
     background-color: #f1f1f1;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+.book-card, .trans-card, .book{
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    width: 250px;
+    padding: 15px;
+    text-align: center;
+    transition: 0.3s;
 }

@@ -33,6 +33,56 @@
          </div>
     </div>
 
+    <div class="Search_Books">
+        <div class="search_bar">
+            <h1>Search Books by Title</h1>
+            <input type="text" id="searchInput" placeholder="Enter book title..." />
+            <button onclick="searchBooks()">Search</button>
+            <div id="results"></div>
+        </div>
+        
+        <script>
+            async function searchBooks() {
+            const title = document.getElementById("searchInput").value;
+            const resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = "Searching...";
+
+            try {
+                const response = await fetch(`/api/borrow/search?title=${encodeURIComponent(title)}`);
+                const books = await response.json();
+
+                if (books.length === 0) {
+                resultsDiv.innerHTML = "<p>No books found.</p>";
+                return;
+            }
+
+            resultsDiv.innerHTML = "";
+            books.forEach(book => {
+                const div = document.createElement("div");
+                div.className = "book";
+                div.innerHTML = `
+                    <img src="${book.image}" alt="${book.title}" width="100">
+                    <h3>${book.title}</h3>
+                    <p>Author: ${book.author}</p>
+                    <p>Quantity: ${book.quantity}</p>
+                    <p>Price: $${book.price}</p>
+                    <p>Rating: ${book.rating}</p>
+                    <p>Description: ${book.description}</p>
+                `;
+                resultsDiv.appendChild(div);
+                });
+            } catch (error) {
+                console.error("Error fetching books:", error);
+                resultsDiv.innerHTML = "<p>Error fetching books. Check the console.</p>";
+                }
+            }
+
+        </script>
+
+
+    </div>
+
+
     <div class="books">
         <div class="boo">
             <h1>All Books</h1>
@@ -48,7 +98,11 @@
     
                 let bookList = document.getElementById("booksList");
                 bookList.innerHTML = "";
-    
+                const today = new Date();
+                const futureDate = new Date();
+                futureDate.setDate(today.getDate() + 5);
+                console.log(futureDate);
+                
                 books.forEach(book => {
                     let card = document.createElement("div");
                     card.className = "book-card";
@@ -60,16 +114,55 @@
                         <p>Price: $${book.price}</p>
                         <p>Rating: ${book.rating}</p>
                         <p>Description: ${book.description}</p>
+                        <p>Date: ${today}</p>
+                        <p>Issue Date: ${futureDate}</p>
+                        <button type="submit" onclick="issuingBook()">issue</button>
                     `;
                     bookList.appendChild(card);
                 });
+            }
+            async function issuingBook() {
+                
             }
     
             fetchBooks();
         </script>
     </div>
 
+    <div class="Transcations">
+        <div class="trans">
+            <h1>Transcations</h1>
+        </div>
+        <div id="transcation"></div>
+
+        <script>
+            async function fetchTranscations() {
+                let response = await fetch("/api/borrow");
+                let books = await response.json();
     
+                let bookList = document.getElementById("transcation");
+                bookList.innerHTML = "";
+    
+                books.forEach(transcate => {
+                    let card = document.createElement("div");
+                    card.className = "trans-card";
+                    card.innerHTML = `
+                        <p>userId: ${transcate.userId}</p> 
+                        <p>bookId: ${transcate.bookId}</p>
+                        <p>bookTitle: ${transcate.bookTitle}</p>
+                        <p>status: ${transcate.type}</p>
+                        <p>IssuedDate: ${new Date(transcate.issueDate).toLocaleDateString()}</p>
+                        <p>ReturnDate: ${transcate.returnDate}</p>
+                    `;
+                    bookList.appendChild(card);
+                });
+            }
+    
+            fetchTranscations();
+        </script>
+
+    </div>
+
 
     <script src="userdash.js"></script>
     <script src="userDetails.js"></script>

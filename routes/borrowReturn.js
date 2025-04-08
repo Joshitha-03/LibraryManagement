@@ -2,56 +2,91 @@ const express = require('express');
 const router = express.Router();
 const User = require("../models/user");
 const Book = require('../models/Book');
+const Transaction=require("../models/transaction");
 
-router.post('/borrow', async (req, res) => {
+router.post("/issueBook", async (req, res) => {
   const { userId, bookId } = req.body;
-  try {
-    const book = await Book.findOne({bookId});
-    const user = await User.findOne({userId});
 
-    if (!book || book.quantity<=0 ) {
-      return res.status(400).json({ message: 'Book is not available.' });
-    }
+  const user = await User.findOne({ userId });
+  if (!user) return res.status(404).json({ message: "User not found" });
 
-    // book.isAvailable = false;
-    book.quantity-=1;
-    user.borrowedBooks.push(book._id);
-
-    await book.save();
-    await user.save();
-
-    res.json({ message: 'Book borrowed successfully.' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  const book = await Book.findOne({ bookId });
+  if (!book || book.quantity <= 0) {
+    return res.status(400).json({ message: "Book not available" });
   }
+
+  const issuedCount = await Transaction.countDocuments({ userId, type: "ISSUE" });
+  if (issuedCount >= 5) {
+    return res.status(400).json({ message: "User has reached issue limit" });
+  }
+
+  await Book.updateOne({ bookId }, { $inc: { quantity: -1 } });
+  await Transaction.create({
+    userId,
+    bookId,
+    bookTitle: book.title,
+    type: "ISSUE",
+    issueDate: new Date()
+  });
+
+  res.json({ message: "Book issued successfully" });
 });
 
-router.post('/return', async (req, res) => {
-  const { userId, bookId } = req.body;
 
-  try {
-    const user = await User.findOne({userId});
-    const book = await Book.findOne({bookId});
+router.post("/returnBook", async (req, res) => {
+    const { userId, bookId } = req.body;
 
-    if (!user || !book) {
-      return res.status(404).json({ message: 'User or Book not found.' });
+    const user = await User.findOne({ userId });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const book = await Book.findOne({ bookId });
+    if (!book) return res.status(404).json({ message: "Book not found" });
+
+    const issuedTransaction = await Transaction.findOne({
+      userId,
+      bookId,
+      type: "ISSUE"
+    }).sort({ issueDate: -1 });
+
+    if (!issuedTransaction) {
+      return res.status(400).json({ message: "No issued record found for this book by this user" });
     }
 
-    if (!user.borrowedBooks.includes(bookId)) {
-      return res.status(400).json({ message: 'User did not borrow this book.' });
+  await Book.updateOne({ bookId }, { $inc: { quantity: 1 } });
+
+  await Transaction.create({
+    userId,
+    bookId,
+    bookTitle: book.title,
+    type: "RETURN",
+    issueDate: issuedTransaction.issueDate, 
+    returnDate: new Date()
+  });
+
+  res.json({ message: "Book returned successfully" });
+});
+
+
+
+router.get("/", async (req, res) => {
+    try {
+        const trans = await Transaction.find();
+        res.json(trans);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch books" });
     }
+});
 
-    user.borrowedBooks = user.borrowedBooks.filter(id => id.toString() !== bookId);
-    // book.isAvailable = true;
-    book.quantit+=1;
-
-    await user.save();
-    await book.save();
-
-    res.json({ message: 'Book returned successfully.' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+router.get("/search",async (req, res) => {
+    const title = req.query.title || '';
+    try {
+      const books = await Book.find({
+        title: { $regex: title, $options: 'i' }
+      });
+      res.json(books);
+    } catch (err) {
+      res.status(500).json({ error: 'Server error' });
+    }
 });
 
 module.exports = router;
