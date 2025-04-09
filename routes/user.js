@@ -73,4 +73,24 @@ router.get("/me", async (req, res) => {
     }
 });
 
+// GET /api/user/count - returns total number of users registered
+router.get('/count', async (req, res) => {
+  try {
+    const count = await User.countDocuments();
+    res.json({ count });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+router.get('/all', async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch users' });
+  }
+});
+
 module.exports=router;

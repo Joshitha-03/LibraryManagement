@@ -25,7 +25,7 @@
             <li><a href="updatebook.html">Update Books</a></li>
           </ul>
         </li>
-        <li><a href="#">Users</a></li>
+        <li><a href="users.html">Users</a></li>
         <li><a href="#">Transactions</a></li>
       </ul>
     </div>
@@ -86,15 +86,30 @@
         }
       }
 
-      document.addEventListener("DOMContentLoaded", () => {
-        fetch("/api/books/count")
-          .then((response) => response.json())
-          .then((data) => {
-            document.getElementById("listedBooksCount").textContent =
-              data.count;
-          })
-          .catch((error) => console.error("Error fetching book count:", error));
-      });
+  async function fetchBookCount() {
+    try {
+      const response = await fetch('/api/books/count');
+      const data = await response.json();
+      document.getElementById('listedBooksCount').innerText = data.count;
+    } catch (error) {
+      console.error('Error fetching book count:', error);
+    }
+  }
+
+  async function fetchUserCount() {
+    try {
+      const response = await fetch('/api/user/count');
+      const data = await response.json();
+      document.getElementById('usersCount').innerText = data.count;
+    } catch (error) {
+      console.error('Error fetching user count:', error);
+    }
+  }
+
+  window.onload = function () {
+  fetchBookCount();
+  fetchUserCount();
+};
 
       document
         .querySelector(".logout-btn")

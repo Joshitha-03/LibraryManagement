@@ -91,13 +91,15 @@ router.post("/logout", (req, res) => {
   res.json({ message: "Logout successful" });
 });
 
-router.get('/api/books/count', async (req, res) => {
-    try {
-      const count = await books.countDocuments(); // Count the number of books
-      res.json({ count });
-    } catch (error) {
-      res.status(500).json({ message: 'Error fetching book count' });
-    }
-  });
+// GET /api/books/count - returns total number of books
+router.get('/count', async (req, res) => {
+  try {
+    const count = await Book.countDocuments();
+    res.json({ count });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
 
 module.exports = router;
