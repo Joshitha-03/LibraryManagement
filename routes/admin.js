@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Admin = require("../models/Admin");
 const auth = require("../middleware/auth");
-
+const Transaction=require("../models/transaction");
 const {setUser} =require("../service/auth");
 
 const router = express.Router();
@@ -33,6 +33,16 @@ router.post("/login", async (req, res) => {
 router.get("/dashboard", auth, (req, res) => {
     res.json({ message: "Welcome to Admin Dashboard", adminId: req.admin.id });
 });
+
+router.get("/transactions", async (req, res) => {
+    try {
+      const transactions = await Transaction.find(); // no userId filter
+      res.json(transactions);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch all transactions" });
+    }
+  });
+  
 
 // Logout
 router.post("/logout", (req, res) => {

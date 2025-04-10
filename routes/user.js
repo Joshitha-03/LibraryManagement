@@ -3,7 +3,8 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const {setUser} =require("../service/auth");
 const { getUser } = require("../service/auth");
-
+const Transaction=require("../models/transaction");
+const authenticate = require('../middleware/authenticate');
 const router=express.Router(); 
 
 router.post("/userSignIn", async function signIn(req,res) {
@@ -72,6 +73,27 @@ router.get("/me", async (req, res) => {
         return res.status(500).json({ message: "Server error" });
     }
 });
+
+// userLogout route
+router.post("/userLogout", function logOut(req, res) {
+  res.clearCookie("uid"); // Clear the uid cookie
+  return res.status(200).json({ message: "Logout successful" });
+});
+
+router.get('/', authenticate, async (req, res) => {
+  console.log('User ID:', req.user._id); // Ensure correct user ID
+  try {
+      const transactions = await Transaction.find({ userId: req.user._id.toString() }); // Make sure to convert the user ID to string
+      console.log('Fetched Transactions:', transactions);
+      res.status(200).json({ success: true, data: transactions });
+  } catch (error) {
+      console.error('Error fetching transactions:', error);
+      res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
+
+
 
 // GET /api/user/count - returns total number of users registered
 router.get('/count', async (req, res) => {

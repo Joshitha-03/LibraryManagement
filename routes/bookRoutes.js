@@ -8,8 +8,9 @@ const router = express.Router();
 // Add Book Route
 router.post("/add", upload.single("image"), async (req, res) => {
     try {
-        const { title, author, quantity, price, description, rating } = req.body;
+        const { bookId,title, author, quantity, price, description, rating } = req.body;
         const newBook = new Book({
+            bookId,
             image: req.file ? `/uploads/${req.file.filename}` : "",
             title,
             author,
@@ -62,8 +63,7 @@ router.put("/update/:id", upload.single("image"), async (req, res) => {
       }
 
       // Update the book
-      const updatedBook = await Book.findByIdAndUpdate(bookId, updates, { new: true });
-
+      const updatedBook = await Book.findOneAndUpdate({ bookId }, updates, { new: true });
       if (!updatedBook) {
           return res.status(404).json({ message: "Book not found" });
       }
@@ -74,22 +74,6 @@ router.put("/update/:id", upload.single("image"), async (req, res) => {
   }
 });
 
-    
-
-// Get All Books Route
-router.get("/", async (req, res) => {
-    try {
-        const books = await Book.find();
-        res.json(books);
-    } catch (error) {
-        res.status(500).json({ error: "Failed to fetch books" });
-    }
-});
-
-router.post("/logout", (req, res) => {
-  res.clearCookie("token"); // Clears JWT from cookies
-  res.json({ message: "Logout successful" });
-});
 
 // GET /api/books/count - returns total number of books
 router.get('/count', async (req, res) => {

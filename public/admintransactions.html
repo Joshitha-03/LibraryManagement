@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transactions</title>
+    <style>
+      #transaction-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      #transaction-table th {
+        background-color: #007bff;
+        color: white;
+      }
+
+      #transaction-table th,
+      #transaction-table td {
+        padding: 10px;
+        border: 1px solid #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="Transactions">
+      <div class="trans">
+        <h1>Transactions</h1>
+      </div>
+      <div id="transaction-container">
+        <table
+          id="transaction-table"
+          border="1"
+          cellpadding="10"
+          cellspacing="0"
+        >
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>Book ID</th>
+              <th>Book Title</th>
+              <th>Status</th>
+              <th>Issued Date</th>
+              <th>Return Date</th>
+            </tr>
+          </thead>
+          <tbody id="transaction-body">
+            <!-- Transaction rows will be inserted here -->
+          </tbody>
+        </table>
+      </div>
+
+      <script>
+        async function fetchTransactions() {
+          let response = await fetch("/api/admin/transactions");
+          let transactions = await response.json();
+
+          let tbody = document.getElementById("transaction-body");
+          tbody.innerHTML = "";
+
+          transactions.forEach((txn) => {
+            let row = document.createElement("tr");
+
+            row.innerHTML = `
+                        <td>${txn.userId}</td>
+                        <td>${txn.bookId}</td>
+                        <td>${txn.bookTitle}</td>
+                        <td>${txn.type}</td>
+                        <td>${new Date(txn.issueDate).toLocaleDateString()}</td>
+                        <td>${
+                          txn.returnDate
+                            ? new Date(txn.returnDate).toLocaleDateString()
+                            : "Not Returned"
+                        }</td>
+                    `;
+
+            tbody.appendChild(row);
+          });
+        }
+
+        fetchTransactions();
+      </script>
+    </div>
+  </body>
+</html>

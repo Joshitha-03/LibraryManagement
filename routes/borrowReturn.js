@@ -32,8 +32,8 @@ router.post("/issueBook", async (req, res) => {
   res.json({ message: "Book issued successfully" });
 });
 
-
 router.post("/returnBook", async (req, res) => {
+  try {
     const { userId, bookId } = req.body;
 
     const user = await User.findOne({ userId });
@@ -52,30 +52,24 @@ router.post("/returnBook", async (req, res) => {
       return res.status(400).json({ message: "No issued record found for this book by this user" });
     }
 
-  await Book.updateOne({ bookId }, { $inc: { quantity: 1 } });
+    await Book.updateOne({ bookId }, { $inc: { quantity: 1 } });
 
-  await Transaction.create({
-    userId,
-    bookId,
-    bookTitle: book.title,
-    type: "RETURN",
-    issueDate: issuedTransaction.issueDate, 
-    returnDate: new Date()
-  });
+    await Transaction.create({
+      userId,
+      bookId,
+      bookTitle: book.title,
+      type: "RETURN",
+      issueDate: issuedTransaction.issueDate,
+      returnDate: new Date()
+    });
 
-  res.json({ message: "Book returned successfully" });
+    res.json({ message: "Book returned successfully" });
+  } catch (err) {
+    console.error("Error in returnBook:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
 });
 
-
-
-router.get("/", async (req, res) => {
-    try {
-        const trans = await Transaction.find();
-        res.json(trans);
-    } catch (error) {
-        res.status(500).json({ error: "Failed to fetch books" });
-    }
-});
 
 router.get("/search",async (req, res) => {
     const title = req.query.title || '';

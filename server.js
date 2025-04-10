@@ -6,7 +6,6 @@ const cookieParser = require("cookie-parser");
 const adminRoutes = require("./routes/admin");
 const userRoutes=require("./routes/user");
 const borrow = require("./routes/borrowReturn");
-const addBook=require("./routes/addBook");
 const Admin = require("./models/Admin");
 const bcrypt = require("bcryptjs");
 const bookRoutes = require("./routes/bookRoutes");
@@ -58,8 +57,8 @@ connectDb("mongodb://localhost:27017/LibraryDB").then(
 app.use("/api/admin", adminRoutes);
 app.use("/api/books", bookRoutes);
 app.use("/api/user", userRoutes);
-app.use("/api/book",addBook);
 app.use("/api/borrow",borrow);
+app.use("api/admin",Admin);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
