@@ -40,14 +40,14 @@
         <script>
             async function fetchTransactions() {
     try {
-        // Fetch transactions from the backend
-        let response = await fetch("/api/user", {
+        let response = await fetch("/api/user/", {
             method: "GET",
             credentials: "include", // send cookies
             headers: {
                 "Content-Type": "application/json"
             }
         });
+
 
         const result = await response.json();
         console.log("Fetched transactions:", result); // Debugging line
