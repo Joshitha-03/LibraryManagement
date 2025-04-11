@@ -1,6 +1,6 @@
 document.querySelector("#adminLoginForm").addEventListener("submit", async (event) => {
-    event.preventDefault();  // Prevent the form from submitting normally
-
+    event.preventDefault();  
+    
     // Get values from the input fields
     const username = document.querySelector("#admin-username").value;
     const password = document.querySelector("#admin-password").value;

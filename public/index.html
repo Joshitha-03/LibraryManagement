@@ -15,7 +15,7 @@
     <nav class="navbar">
         <div class="logo">📖 Digital Library</div>
         <ul class="nav-links">
-            <li><a href="#home">Home</a></li>
+            <li><a href="#home" class="nav-link" data-bs-toggle="modal" id="homeLink">Home</a></li>
             <li><a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#signInModal">User SignIn</a></li>
             <li><a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#signUpModal">User SignUp</a></li>
             <li><a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#LogInModal">Admin Login</a></li>
@@ -60,7 +60,7 @@
                 <label for="confirm-password" class="form-label">Confirm Password</label>
                 <input type="password" class="form-control" id="signup-confirm-password" placeholder="Enter your password again">
             </div>
-            <button type="submit" class="btn btn-primary w-10">Sign Up</button>
+            <button type="submit" class="btn btn-primary w-100">Sign Up</button>
           </form>
         </div>
         <div class="modal-footer justify-content-start">
@@ -94,7 +94,7 @@
               <label for="password" class="form-label">Password</label>
               <input type="password" class="form-control" id="signin-password" placeholder="Enter your password">
             </div>
-            <button type="submit" class="btn btn-primary w-10">Sign In</button>
+            <button type="submit" class="btn btn-primary w-100">Sign In</button>
           </form>
         </div>
         <div class="modal-footer justify-content-start">
@@ -135,7 +135,7 @@
   <header class="hero">
         <h1>Welcome to the Digital Library</h1>
         <p class="quote">"A room without books is like a body without a soul." - Cicero</p>
-    </header>        
+    </header>
   
 
     <section class="user-reviews">

@@ -78,6 +78,7 @@
     color: #555;
     margin: 5px 0;
 }
+
     </style>
   </head>
   <body>
@@ -221,7 +222,7 @@
 
 
     <div class="IssuedBooks">
-      <h1>Your Borrowed Books</h1>
+      <h1>You Borrowed Books</h1>
     <ul id="borrowedBooksList" class="book-list">
         <li>Loading borrowed books...</li>
     </ul>
@@ -259,6 +260,7 @@
                 const listItem = document.createElement('li');
                 listItem.classList.add('book-item');
                 listItem.innerHTML = `
+                    <img src="${book.image}" alt="${book.title}" width="100">
                     <h3>${book.title}</h3>
                     <p>Author: ${book.author}</p>
                     <p>Book ID: ${book.bookId}</p>
