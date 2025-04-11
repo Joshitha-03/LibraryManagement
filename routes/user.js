@@ -116,14 +116,16 @@ router.post("/userLogout", function logOut(req, res) {
 router.get("/", authenticate, async (req, res) => {
   console.log("User ID:", req.user._id); // Ensure correct user ID
   console.log(req.user);
-  
+
   try {
     const userEmail = req.user.email;
-    const transactions = await Transaction.find(); 
-    const users = await User.findOne({email: userEmail})
+    const transactions = await Transaction.find();
+    const users = await User.findOne({ email: userEmail });
     const currentUserId = users.userId;
-    
-    const userTransactions = transactions.filter((transaction) => transaction.userId == currentUserId)
+
+    const userTransactions = transactions.filter(
+      (transaction) => transaction.userId == currentUserId
+    );
     console.log("Fetched Transactions:", userTransactions);
     res.status(200).json({ success: true, data: userTransactions });
   } catch (error) {
@@ -149,6 +151,22 @@ router.get("/all", async (req, res) => {
     res.json(users);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch users" });
+  }
+});
+
+router.get("/borrowedBooks", authenticate, async (req, res) => {
+  const users = await User.findOne({ _id: req.user._id });
+  const userId = users.userId;
+  try {
+    const user = await User.findOne({ userId }).populate("borrowedBooks");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const borrowedBook = res.json({ borrowedBooks: user.borrowedBooks });
+    console.log(borrowedBook);
+  } catch (error) {
+    console.error("Error fetching borrowed books:", error);
+    res.status(500).json({ message: "Failed to fetch borrowed books" });
   }
 });
 

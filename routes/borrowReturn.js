@@ -29,6 +29,11 @@ router.post("/issueBook", async (req, res) => {
     issueDate: new Date()
   });
 
+  await User.updateOne(
+    { userId },
+    { $push: { borrowedBooks: book._id } }
+  );
+
   res.json({ message: "Book issued successfully" });
 });
 
@@ -62,6 +67,11 @@ router.post("/returnBook", async (req, res) => {
       issueDate: issuedTransaction.issueDate,
       returnDate: new Date()
     });
+
+    await User.updateOne(
+      { userId },
+      { $pull: { borrowedBooks: book._id } }
+    );
 
     res.json({ message: "Book returned successfully" });
   } catch (err) {

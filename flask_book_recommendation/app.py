@@ -26,7 +26,7 @@ def get_recommended_books():
     for book in recommended_books:
         books.append({
             "title": book['title'],
-            "bookId": book['bookId'],
+            # "bookId": book['bookId'],
             "author": book['author'],
             "quantity":book['quantity'],
             "rating": book['rating'],

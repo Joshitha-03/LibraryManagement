@@ -219,6 +219,63 @@
       </div>
     </div>
 
+
+    <div class="IssuedBooks">
+      <h1>Your Borrowed Books</h1>
+    <ul id="borrowedBooksList" class="book-list">
+        <li>Loading borrowed books...</li>
+    </ul>
+
+    <script>
+        async function fetchBorrowedBooks() {
+            try {
+                const response = await fetch("/api/user/borrowedBooks", {
+                  credentials: "include"
+                });
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(`HTTP error! status: ${response.status}, message: ${error.message}`);
+                }
+                const data = await response.json();
+                console.log(data);
+                
+                displayBorrowedBooks(data.borrowedBooks);
+            } catch (error) {
+                console.error("Could not fetch borrowed books:", error);
+                document.getElementById('borrowedBooksList').innerHTML = `<li>Error loading borrowed books: ${error.message}</li>`;
+            }
+        }
+
+        function displayBorrowedBooks(books) {
+            const borrowedBooksList = document.getElementById('borrowedBooksList');
+            borrowedBooksList.innerHTML = '';
+
+            if (books.length === 0) {
+                borrowedBooksList.innerHTML = '<li>No books borrowed yet.</li>';
+                return;
+            }
+
+            books.forEach(book => {
+                const listItem = document.createElement('li');
+                listItem.classList.add('book-item');
+                listItem.innerHTML = `
+                    <h3>${book.title}</h3>
+                    <p>Author: ${book.author}</p>
+                    <p>Book ID: ${book.bookId}</p>
+                    <p>Book quantity: ${book.quantity}</p>
+                    <p>Book price: ${book.price}</p>
+                    <p>Book description: ${book.description}</p>
+                    <p>Book rating: ${book.rating}</p>
+                    `;
+                borrowedBooksList.appendChild(listItem);
+            });
+        }
+
+        window.onload = fetchBorrowedBooks;
+    </script>
+    </div>
+
+    
     <script>
       // Fetch recommended books from the Flask API
       fetch("http://localhost:5001/api/user/getRecommendedBooks")
