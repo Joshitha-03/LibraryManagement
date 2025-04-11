@@ -1,19 +1,17 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body, html { height: 100%; overflow-y: auto; font-family: Arial, sans-serif; background: linear-gradient(135deg, #e3ffe7 0%, #d9e7ff 100%); }
-.navbar { display: flex; justify-content: space-between; padding: 10px 20px; background-color: #4A90E2; color: #fff; }
+.navbar { display: flex; justify-content: space-between; padding: 10px 20px; background-color: #8F87F1; color: #fff; }
 .nav-links { display: flex; list-style: none; gap: 15px; }
 .nav-links a { color: #fff; text-decoration: none; font-weight: bold; }
-.carousel { width: 90%; margin-left: 20px; margin-right:10px; position: relative; }
-.carousel img { width: 100%; height: 80vh; object-fit: cover; }
-footer { padding: 10px; text-align: center; background-color: #4A90E2; color: #fff; position: relative; bottom: 0; width: 100%; }
-.carousel-item img {
-    object-fit: cover;
-    height: 500px; /* Set a fixed height for consistency */
-  }
+.hero { height: 75vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: url('https://images.unsplash.com/photo-1495446815901-a7297e633e8d') no-repeat center/cover; color: #fff; }
+.quote { font-size: 1.5rem; font-style: italic; padding: 10px; background: rgba(0,0,0,0.5); border-radius: 10px; }
+
+footer { padding: 10px; text-align: center; background-color: #4A90E2; line-height: 1.1;color: #fff; position: relative; bottom: 0; width: 100%; }
+
   .user-reviews {
-    max-width: 800px;
-    margin: 40px auto;
+    max-width: 1000px;
+    margin: 15px auto;
     padding: 20px;
     font-family: "Segoe UI", sans-serif;
   }
@@ -50,5 +48,10 @@ footer { padding: 10px; text-align: center; background-color: #4A90E2; color: #f
     font-size: 1rem;
     line-height: 1.6;
     color: #333;
+  }
+  .rating {
+    font-size: 1.1em;
+    color: #f5c518; /* gold color for stars */
+
   }
   

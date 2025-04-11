@@ -6,19 +6,51 @@ const { getUser } = require("../service/auth");
 const Transaction=require("../models/transaction");
 const authenticate = require('../middleware/authenticate');
 const router=express.Router(); 
+const multer = require('multer');
+const path = require('path');
 
-router.post("/userSignIn", async function signIn(req,res) {
-    const { name, userId, email, phone, password } =req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    await User.create({
-        name,
-        userId,
-        email, 
-        phone, 
-        password: hashedPassword,
-      });
-      return res.send("sing in sucessfull");
+// configure multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, 'profile-' + Date.now() + path.extname(file.originalname));
+  }
 });
+const upload = multer({ storage: storage });
+
+// update route
+router.post("/userSignIn", upload.single('profileImage'), async (req, res) => {
+  const { name, userId, email, phone, password } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const profileImage = req.file ? req.file.filename : "default.png";
+
+  await User.create({
+    name,
+    userId,
+    email,
+    phone,
+    password: hashedPassword,
+    profileImage,
+  });
+
+  return res.json({ message: "Sign up successful!" });
+});
+
+// router.post("/userSignIn", async function signIn(req,res) {
+//     const { name, userId, email, phone, password } =req.body;
+//     const hashedPassword = await bcrypt.hash(password, 10);
+//     await User.create({
+//         name,
+//         userId,
+//         email, 
+//         phone, 
+//         password: hashedPassword,
+//       });
+//       return res.send("sing in sucessfull");
+// });
 
 router.post("/userLogin", async function logIn(req, res) {
   const { userId, email, password } = req.body;

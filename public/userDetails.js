@@ -16,10 +16,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         if (response.ok) {
             const user = await response.json();
+
             document.getElementById("UserName").innerText = `Name: ${user.name}`;
             document.getElementById("UserId").innerText = `User ID: ${user.userId}`;
             document.getElementById("UserEmail").innerText = `Email Id: ${user.email}`;
             document.getElementById("UserPhone").innerText = `Phone No. : ${user.phone}`;
+
+            // 🖼️ Set profile image
+            const profileImg = document.getElementById("UserProfileImage");
+            if (user.profileImage) {
+                profileImg.src = `/uploads/${user.profileImage}`;
+            } else {
+                profileImg.src = "/uploads/default.png"; // fallback
+            }
+
         } else {
             localStorage.removeItem("token");
             window.location.href = "index.html";
@@ -30,4 +40,3 @@ document.addEventListener("DOMContentLoaded", async () => {
         window.location.href = "index.html";
     }
 });
-

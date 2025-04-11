@@ -86,4 +86,13 @@ router.get('/count', async (req, res) => {
   }
 });
 
+router.get('/', async (req, res) => {
+  try {
+    const book = await Book.find();
+    res.json(book);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch books' });
+  }
+});
+
 module.exports = router;
