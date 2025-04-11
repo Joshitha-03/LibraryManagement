@@ -38,61 +38,46 @@
         margin-bottom: 20px;
       }
 
-      /* Recommended books container styling */
-      .recommended-books {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 20px;
-        margin-top: 20px;
-      }
+      #book-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
 
-      /* Individual book card styling */
-      .book-card {
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        transition: transform 0.3s ease;
-      }
+/* Book Card */
+.book-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    width: 250px;
+    padding: 15px;
+    text-align: center;
+    transition: 0.3s;
+}
 
-      .book-card:hover {
-        transform: scale(1.05);
-      }
+.book-card:hover {
+    transform: scale(1.05);
+}
 
-      .book-card img {
-        width: 100%;
-        height: 250px;
-        object-fit: cover;
-      }
+.book-card img {
+    width: 100px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+}
 
-      .book-card h4 {
-        font-size: 20px;
-        padding: 10px;
-        color: #333;
-      }
+.book-card h3 {
+    margin: 10px 0;
+    font-size: 18px;
+}
 
-      .book-card p {
-        padding: 0 10px 10px 10px;
-        color: #666;
-        font-size: 14px;
-      }
-
-      /* Button styling (optional) */
-      .book-card .btn {
-        display: block;
-        background-color: #28a745;
-        color: #fff;
-        text-align: center;
-        padding: 10px;
-        border: none;
-        border-radius: 0 0 10px 10px;
-        text-decoration: none;
-        margin-top: 10px;
-      }
-
-      .book-card .btn:hover {
-        background-color: #218838;
-      }
+.book-card p {
+    font-size: 14px;
+    color: #555;
+    margin: 5px 0;
+}
     </style>
   </head>
   <body>
@@ -130,7 +115,7 @@
     <div class="container">
       <!-- Recommended Books Section -->
       <h3>Recommended Books (Based on Highest Rating)</h3>
-      <div class="recommended-books" id="recommendedBooksContainer">
+      <div class="recommended-books" id="book-list">
         <!-- Book cards will be injected here -->
       </div>
     </div>
@@ -239,23 +224,22 @@
       fetch("http://localhost:5001/api/user/getRecommendedBooks")
         .then((response) => response.json())
         .then((books) => {
-          const container = document.getElementById(
-            "recommendedBooksContainer"
-          );
+          let bookList = document.getElementById("book-list");
+            bookList.innerHTML = "";
           books.forEach((book) => {
-            const card = document.createElement("div");
-            card.className = "book-card";
-
-            card.innerHTML = `
-                        <img src="${book.image}" alt="${book.title}" width="100">
-                        <h4>${book.title}</h4>
-                        <p>Author: ${book.author}</p>
-                        <p>Rating: ${book.rating}</p>
-                        <p>Price: $${book.price}</p>
-                        <p>${book.description}</p>
-                    `;
-
-            container.appendChild(card);
+            let card = document.createElement("div");
+                card.className = "book-card";
+                card.innerHTML = `
+                    <img src="${book.image}" alt="${book.title}" width="100">
+                    <h3>${book.title}</h3>
+                    <p>BookId: ${book.bookId}</p>
+                    <p>Author: ${book.author}</p>
+                    <p>Quantity: ${book.quantity}</p>
+                    <p>Price: $${book.price}</p>
+                    <p>Rating: ${book.rating}</p>
+                    <p>Description: ${book.description}</p>
+                `;
+                bookList.appendChild(card);
           });
         })
         .catch((error) => {

@@ -28,6 +28,31 @@
             <h3 id="UserPhone"></h3>
         </div>
    </div>
+   <script>
+    document
+        .getElementById("logoutBtn")
+        .addEventListener("click", async function (e) {
+          e.preventDefault(); // prevent default anchor behavior
+
+          try {
+            const response = await fetch("/api/user/userLogout", {
+              method: "POST",
+              credentials: "include", // send cookies
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+              alert(result.message); // "Logout successful"
+              window.location.href = "index.html"; // redirect to login page
+            } else {
+              alert("Logout failed: " + result.message);
+            }
+          } catch (error) {
+            console.error("Error during logout:", error);
+            alert("An error occurred while logging out.");
+          }
+        });
+   </script>
    <script src="userdash.js"></script>
    <script src="userDetails.js"></script>
 </body>
